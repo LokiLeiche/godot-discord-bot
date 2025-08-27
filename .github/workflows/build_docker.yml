@@ -47,7 +47,7 @@ jobs:
         files: ${{ steps.package_docker_image.outputs.DOCKER_FILE }}
         draft: false
         prerelease: false
-        tag_name: ${{ github.sha }}
+        tag_name: automated_build
         name: Automated docker image build
 
       env:
