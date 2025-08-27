@@ -1,6 +1,5 @@
 name: Build Docker Image
 
-
 on:
   push:
     branches: [ "workflow" ]
@@ -15,7 +14,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install docker
+    - name: Install docker # based on https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
       run: |
         sudo apt-get update
         sudo apt-get install ca-certificates curl
@@ -48,7 +47,7 @@ jobs:
         files: ${{ steps.package_docker_image.outputs.DOCKER_FILE }}
         draft: false
         prerelease: false
-        tag_name: automated_build
+        tag_name: ${{ github.sha }}
         name: Automated docker image build
 
       env:
