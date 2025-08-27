@@ -38,7 +38,7 @@ jobs:
       run: |
         sudo docker save -o godot-discord-bot.tar godot-discord-bot
         DOCKER_FILE=$(ls godot-discord-bot.tar | head -n 1)
-        echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
+        sudo echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
 
     - name: create github release
       uses: softprops/action-gh-release@v2
