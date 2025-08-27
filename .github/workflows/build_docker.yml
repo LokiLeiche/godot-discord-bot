@@ -37,7 +37,7 @@ jobs:
       id: package_docker_image
       run: |
         sudo docker save -o godot-discord-bot.tar godot-discord-bot
-        DOCKER_FILE=$(ls godot-discord-bot.tar | head -n 1)
+        DOCKER_FILE=$(sudo ls godot-discord-bot.tar | sudo head -n 1)
         sudo echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
 
     - name: create github release
