@@ -29,7 +29,7 @@ jobs:
           files: ${{ steps.docker_image.outputs.DOCKER_FILE }}
           draft: false
           prerelease: false
-          tag_name: $(date +%y-%m-%d_%H:%M)
+          tag_name: $(date +%y-%m-%d_%H-%M)
           name: Automated docker image build
 
         env:
