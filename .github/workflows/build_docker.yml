@@ -23,13 +23,17 @@ jobs:
           DOCKER_FILE=$(ls godot-discord-bot.tar | head -n 1)
           echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
 
+      - name: get date
+        id: date
+        run: echo "DATE=$(date +%y-%m-%d_%H-%M)" >> $GITHUB_OUTPUT
+
       - name: create github release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.docker_image.outputs.DOCKER_FILE }}
           draft: false
           prerelease: false
-          tag_name: $(date +%y-%m-%d_%H-%M)
+          tag_name: ${{ steps.date.outputs.DATE }}
           name: Automated docker image build
 
         env:
