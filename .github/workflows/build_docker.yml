@@ -41,6 +41,12 @@ jobs:
         DOCKER_FILE=$(sudo ls godot-discord-bot.tar | sudo head -n 1)
         sudo echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
 
+    - name: delete old release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release delete automated_build --yes
+
     - name: create github release
       uses: softprops/action-gh-release@v2
       with:
