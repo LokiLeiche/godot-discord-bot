@@ -28,7 +28,7 @@ const config = {
 
 module.exports = config;
 ```
-test
+
 Replace `CLIENT_ID` and `TOKEN`, `CHANNEL_ID`, `ROLE_ID`, `GUILD_ID` with the correct values. The `"admins"` field is
 a list of user IDs as strings. These users will have permission to refresh the slash
 commands registered for the discord application. At the very least this list should
