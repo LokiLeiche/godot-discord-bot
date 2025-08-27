@@ -19,6 +19,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh release delete automated_build --yes
+      continue-on-error: true
 
     - name: Install docker # based on https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
       run: |
