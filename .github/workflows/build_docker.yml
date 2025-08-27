@@ -14,48 +14,49 @@ jobs:
       with:
         fetch-depth: 0
 
-    # - name: Install docker # based on https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install ca-certificates curl
-    #     sudo install -m 0755 -d /etc/apt/keyrings
-    #     sudo curl -fsSl https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    #     sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-    #     echo \
-    #       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    #     $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-    #     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    #     sudo apt-get update
-
-    #     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-    # - name: Build docker image
-    #   run: sudo docker build -t godot-discord-bot . -f Containerfile
-
-    # - name: package docker image
-    #   id: package_docker_image
-    #   run: |
-    #     sudo docker save -o godot-discord-bot.tar godot-discord-bot
-    #     sudo chmod 777 godot-discord-bot.tar
-    #     DOCKER_FILE=$(sudo ls godot-discord-bot.tar | sudo head -n 1)
-    #     sudo echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
-
     - name: delete old release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh release delete automated_build --yes
-        gh tag delete automated_build
 
-    # - name: create github release
-    #   uses: softprops/action-gh-release@v2
-    #   with:
-    #     files: ${{ steps.package_docker_image.outputs.DOCKER_FILE }}
-    #     draft: false
-    #     prerelease: false
-    #     tag_name: automated_build
-    #     name: Automated docker image build
+    - name: Install docker # based on https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+      run: |
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSl https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+
+        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    - name: Build docker image
+      run: sudo docker build -t godot-discord-bot . -f Containerfile
+
+    - name: package docker image
+      id: package_docker_image
+      run: |
+        sudo docker save -o godot-discord-bot.tar godot-discord-bot
+        sudo chmod 777 godot-discord-bot.tar
+        DOCKER_FILE=$(sudo ls godot-discord-bot.tar | sudo head -n 1)
+        sudo echo "DOCKER_FILE=$DOCKER_FILE" >> $GITHUB_OUTPUT
+
+    
+
+    - name: create github release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ steps.package_docker_image.outputs.DOCKER_FILE }}
+        draft: false
+        prerelease: false
+        tag_name: automated_build
+        name: Automated docker image build
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
