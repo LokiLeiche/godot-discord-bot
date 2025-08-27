@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: build the image
-        run: docker docker build -t godot-discord-bot . -f Containerfile
+        run: docker build -t godot-discord-bot . -f Containerfile
 
       - name: save docker image to archive
         id: docker_image
