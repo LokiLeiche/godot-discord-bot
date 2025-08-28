@@ -23,16 +23,19 @@ unit.createContextMenuCommand()
 		+ `:link:Link: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.targetId}`;
 		const files = [];
 		const largeFiles = [];
-		let uploadLimit = 1024 * 1024 * 8; // 8mb
+		// 8mb upload limit
+		let uploadLimit = 1024 * 1024 * 8;
 		switch (interaction.guild.premiumTier) {
 			case 2: uploadLimit = 1024 * 1024 * 50; break;
 			case 3: uploadLimit = 1024 * 1024 * 100; break;
 		}
-		uploadLimit = uploadLimit * 0.95; // small buffer
+		// small buffer
+		uploadLimit = uploadLimit * 0.95;
 		reportedMessage.attachments.forEach(attachment => {
 			if (attachment.size > uploadLimit) {
 				largeFiles.push(attachment.url);
-			} else {
+			}
+			else {
 				files.push(attachment.url);
 			}
 		});

@@ -12,7 +12,7 @@ const {
 } = require('discord.js');
 const { Unit, RateLimitError } = require('./units.js');
 const path = require('node:path');
-const fs = require('node:fs')
+const fs = require('node:fs');
 
 /**
  * @typedef {object} GuildConfig
